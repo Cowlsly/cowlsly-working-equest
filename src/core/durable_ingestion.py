@@ -67,13 +67,15 @@ def _parse_task(manifest: ProjectManifest, raw: Any) -> DurableTask:
     if not isinstance(max_attempts, int) or isinstance(max_attempts, bool) or max_attempts < 1:
         raise TaskImportError(f"{task_id}: max_attempts must be >= 1")
 
-    status = "BLOCKED" if dependencies else "READY"
+    # Dependency readiness is evaluated by the queue at claim time. Tasks stay
+    # READY here so they automatically become claimable once their dependencies
+    # reach DONE, without requiring a second state-transition daemon.
     return DurableTask(
         id=task_id,
         project_id=manifest.project_id,
         objective=objective.strip(),
         priority=priority,
-        status=status,
+        status="READY",
         acceptance_criteria=[item.strip() for item in acceptance],
         depends_on=set(dependencies),
         max_attempts=max_attempts,
