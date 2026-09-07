@@ -31,8 +31,12 @@
 - [x] Dispatcher review-path tests.
 
 ## P2: GitHub integration
-- [ ] Discover project manifests.
-- [ ] Import task contracts from opted-in repositories.
+- [x] Define `.cowlsly/workflow.json` opt-in manifest and schema.
+- [x] Add fail-closed manifest parsing, archived-repo rejection and safe relative-path checks.
+- [x] Support repositories whose default branch is not `main`.
+- [x] Add task-contract ingestion with duplicate-ID, dependency and cycle validation.
+- [ ] Wire GitHub repository enumeration to manifest fetch on each repository's default branch.
+- [ ] Persist imported projects/tasks into the live queue backend.
 - [ ] Write human-readable task status back to GitHub.
 - [ ] Link commits/PRs/issues to task runs.
 - [ ] Never overwrite project TODO files without preserving human edits.
