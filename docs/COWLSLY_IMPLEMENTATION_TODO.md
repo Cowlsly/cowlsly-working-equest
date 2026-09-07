@@ -12,20 +12,23 @@
 - [x] Add idempotency protection for retries.
 - [x] Add unit tests for two workers racing for one task.
 - [x] Add crash/restart recovery test semantics.
-- [ ] Run the new tests in CI and fix any integration failures.
+- [ ] Run the new tests in CI and fix runner/integration failures.
 - [ ] Exercise PostgreSQL functions against a real Neon branch.
 
 ## P1: worker/reviewer
 - [x] Worker adapter interface.
 - [x] Reviewer adapter interface.
 - [x] Acceptance-criteria result format.
-- [ ] Retry/backoff policy.
-- [ ] Dependency resolver and cycle detection.
-- [ ] Artifact registration with SHA-256.
+- [x] Retry/backoff policy.
+- [x] Dependency resolver cycle detection.
+- [x] SHA-256 artifact hashing helper.
+- [ ] Persist artifact registration records in the live queue backend.
 - [x] Marla worker profile.
 - [x] Ussylia worker profile.
 - [x] Meta provider profile (disabled until API access is configured).
 - [x] Initial capability-based worker selector.
+- [x] Initial durable dispatcher.
+- [x] Dispatcher review-path tests.
 
 ## P2: GitHub integration
 - [ ] Discover project manifests.
@@ -35,11 +38,15 @@
 - [ ] Never overwrite project TODO files without preserving human edits.
 
 ## P3: operation
-- [ ] Scheduler/dispatcher.
+- [ ] Scheduler around the durable dispatcher.
 - [ ] Dashboard for READY/RUNNING/BLOCKED/REVIEW/FAILED/DONE.
 - [ ] Metrics and token/cost ledger.
 - [ ] Human approval queue.
 - [ ] Notifications for failed/stalled/approval-required work.
+
+## Current external blockers
+- GitHub Actions is creating workflow runs, but the observed jobs fail before normal runner steps are exposed. Do not merge until a focused durable-core run executes and passes.
+- Neon is connected, but the account requires an organization ID before projects can be enumerated. Do not guess a production target.
 
 ## Exit tests
 1. Kill worker A midway through a task.
