@@ -38,14 +38,16 @@
 - [ ] Never overwrite project TODO files without preserving human edits.
 
 ## P3: operation
-- [ ] Scheduler around the durable dispatcher.
+- [x] Bounded scheduler around the durable dispatcher.
+- [x] Scheduler tests for empty queue, dispatch limits and stop requests.
+- [ ] Attach scheduler tick to DeterminFlow automation/cron.
 - [ ] Dashboard for READY/RUNNING/BLOCKED/REVIEW/FAILED/DONE.
 - [ ] Metrics and token/cost ledger.
 - [ ] Human approval queue.
 - [ ] Notifications for failed/stalled/approval-required work.
 
 ## Current external blockers
-- GitHub Actions is creating workflow runs, but the observed jobs fail before normal runner steps are exposed. Do not merge until a focused durable-core run executes and passes.
+- GitHub Actions has previously created workflow runs whose jobs failed before normal runner steps were exposed. Do not merge until a focused durable-core run executes and passes.
 - Neon is connected, but the account requires an organization ID before projects can be enumerated. Do not guess a production target.
 
 ## Exit tests
