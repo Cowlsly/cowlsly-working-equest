@@ -35,7 +35,9 @@
 - [x] Add fail-closed manifest parsing, archived-repo rejection and safe relative-path checks.
 - [x] Support repositories whose default branch is not `main`.
 - [x] Add task-contract ingestion with duplicate-ID, dependency and cycle validation.
-- [ ] Wire GitHub repository enumeration to manifest fetch on each repository's default branch.
+- [x] Add GitHub REST source for owned public/private repository enumeration.
+- [x] Fetch manifests and task JSON from each repository's actual default branch.
+- [x] Add bootstrap pipeline that combines multiple task files before dependency validation.
 - [ ] Persist imported projects/tasks into the live queue backend.
 - [ ] Write human-readable task status back to GitHub.
 - [ ] Link commits/PRs/issues to task runs.
