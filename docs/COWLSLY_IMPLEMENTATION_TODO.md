@@ -4,24 +4,28 @@
 - [x] Define state machine and worker protocol.
 - [x] Define JSON task contract.
 - [x] Define PostgreSQL persistence schema.
-- [ ] Implement atomic `claim_task(worker_id, lease_seconds)` using `FOR UPDATE SKIP LOCKED`.
-- [ ] Implement heartbeat/lease renewal.
-- [ ] Implement expired-lease recovery.
-- [ ] Implement checkpoint commit with optimistic sequence check.
-- [ ] Implement append-only event writer.
-- [ ] Add idempotency protection for retries.
-- [ ] Add unit tests for two workers racing for one task.
-- [ ] Add crash/restart recovery test.
+- [x] Implement atomic `claim_task(worker_id, lease_seconds)` using `FOR UPDATE SKIP LOCKED`.
+- [x] Implement heartbeat/lease renewal.
+- [x] Implement expired-lease recovery.
+- [x] Implement checkpoint commit with optimistic sequence check.
+- [x] Implement append-only event writer.
+- [x] Add idempotency protection for retries.
+- [x] Add unit tests for two workers racing for one task.
+- [x] Add crash/restart recovery test semantics.
+- [ ] Run the new tests in CI and fix any integration failures.
+- [ ] Exercise PostgreSQL functions against a real Neon branch.
 
 ## P1: worker/reviewer
-- [ ] Worker adapter interface.
-- [ ] Reviewer adapter interface.
-- [ ] Acceptance-criteria result format.
+- [x] Worker adapter interface.
+- [x] Reviewer adapter interface.
+- [x] Acceptance-criteria result format.
 - [ ] Retry/backoff policy.
 - [ ] Dependency resolver and cycle detection.
 - [ ] Artifact registration with SHA-256.
-- [ ] Marla worker profile.
-- [ ] Ussylia worker profile.
+- [x] Marla worker profile.
+- [x] Ussylia worker profile.
+- [x] Meta provider profile (disabled until API access is configured).
+- [x] Initial capability-based worker selector.
 
 ## P2: GitHub integration
 - [ ] Discover project manifests.
