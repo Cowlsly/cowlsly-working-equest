@@ -71,31 +71,37 @@ class GitHubProjectSource:
         return tuple(repositories)
 
     def fetch_manifest(self, repository: RepositoryDescriptor) -> dict[str, Any] | None:
+        try:
+            return self.fetch_json_file(repository, MANIFEST_PATH)
+        except FileNotFoundError:
+            return None
+
+    def fetch_json_file(self, repository: RepositoryDescriptor, path: str) -> dict[str, Any]:
         owner, name = _split_full_name(repository.full_name)
-        path = quote(MANIFEST_PATH, safe="/")
+        quoted_path = quote(path, safe="/")
         with self._client() as client:
             response = client.get(
-                f"/repos/{quote(owner, safe='')}/{quote(name, safe='')}/contents/{path}",
+                f"/repos/{quote(owner, safe='')}/{quote(name, safe='')}/contents/{quoted_path}",
                 params={"ref": repository.default_branch},
             )
             if response.status_code == 404:
-                return None
-            self._raise(response, f"fetch {MANIFEST_PATH} from {repository.full_name}")
+                raise FileNotFoundError(f"{path} not found in {repository.full_name}")
+            self._raise(response, f"fetch {path} from {repository.full_name}")
             payload = response.json()
 
         if not isinstance(payload, dict) or payload.get("encoding") != "base64":
-            raise GitHubSourceError(f"unexpected manifest response for {repository.full_name}")
+            raise GitHubSourceError(f"unexpected file response for {repository.full_name}:{path}")
         encoded = payload.get("content")
         if not isinstance(encoded, str):
-            raise GitHubSourceError(f"manifest content missing for {repository.full_name}")
+            raise GitHubSourceError(f"file content missing for {repository.full_name}:{path}")
         try:
             decoded = base64.b64decode(encoded).decode("utf-8")
-            manifest = json.loads(decoded)
+            document = json.loads(decoded)
         except (ValueError, UnicodeDecodeError) as exc:
-            raise GitHubSourceError(f"invalid JSON manifest for {repository.full_name}") from exc
-        if not isinstance(manifest, dict):
-            raise GitHubSourceError(f"manifest must be a JSON object for {repository.full_name}")
-        return manifest
+            raise GitHubSourceError(f"invalid JSON in {repository.full_name}:{path}") from exc
+        if not isinstance(document, dict):
+            raise GitHubSourceError(f"JSON file must contain an object: {repository.full_name}:{path}")
+        return document
 
     def collect_manifests(
         self, repositories: tuple[RepositoryDescriptor, ...]
