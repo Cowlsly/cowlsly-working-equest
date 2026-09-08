@@ -12,7 +12,7 @@
 - [x] Add idempotency protection for retries.
 - [x] Add unit tests for two workers racing for one task.
 - [x] Add crash/restart recovery test semantics.
-- [ ] Run the new tests in CI and fix runner/integration failures.
+- [x] Run the new tests in focused CI and fix runner/dependency failures.
 - [ ] Exercise PostgreSQL functions against a real Neon branch.
 
 ## P1: worker/reviewer
@@ -22,7 +22,7 @@
 - [x] Retry/backoff policy.
 - [x] Dependency resolver cycle detection.
 - [x] SHA-256 artifact hashing helper.
-- [ ] Persist artifact registration records in the live queue backend.
+- [x] Persist artifact registration records in the PostgreSQL queue backend.
 - [x] Marla worker profile.
 - [x] Ussylia worker profile.
 - [x] Meta provider profile (disabled until API access is configured).
@@ -38,7 +38,7 @@
 - [x] Add GitHub REST source for owned public/private repository enumeration.
 - [x] Fetch manifests and task JSON from each repository's actual default branch.
 - [x] Add bootstrap pipeline that combines multiple task files before dependency validation.
-- [ ] Persist imported projects/tasks into the live queue backend.
+- [x] Persist imported projects/tasks into the PostgreSQL queue backend without resetting live execution state.
 - [ ] Write human-readable task status back to GitHub.
 - [ ] Link commits/PRs/issues to task runs.
 - [ ] Never overwrite project TODO files without preserving human edits.
@@ -53,7 +53,7 @@
 - [ ] Notifications for failed/stalled/approval-required work.
 
 ## Current external blockers
-- GitHub Actions has previously created workflow runs whose jobs failed before normal runner steps were exposed. Do not merge until a focused durable-core run executes and passes.
+- Focused GitHub Actions durable-core run is now passing. Keep the PR open until the broader repository CI is also green and the remaining live integration work is exercised.
 - Neon is connected, but the account requires an organization ID before projects can be enumerated. Do not guess a production target.
 
 ## Exit tests
