@@ -52,11 +52,11 @@ def project_manifest():
     return ProjectManifest(
         project_id="alpha",
         repository="Cowlsly/alpha",
-        default_branch="main",
+        enabled=True,
         task_files=("tasks.json",),
         instruction_files=(),
         status_file=None,
-        default_capabilities=(),
+        default_capabilities=frozenset(),
     )
 
 
