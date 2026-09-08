@@ -22,6 +22,10 @@ class BootstrappedProject:
     tasks: tuple[DurableTask, ...]
 
 
+class ProjectSink(Protocol):
+    def persist_projects(self, projects: tuple[BootstrappedProject, ...]) -> None: ...
+
+
 def bootstrap_projects(source: ProjectSource) -> tuple[BootstrappedProject, ...]:
     repositories = source.list_repositories()
     manifests = source.collect_manifests(repositories)
@@ -43,3 +47,18 @@ def bootstrap_projects(source: ProjectSource) -> tuple[BootstrappedProject, ...]
         bootstrapped.append(BootstrappedProject(manifest=manifest, tasks=imported))
 
     return tuple(bootstrapped)
+
+
+def bootstrap_and_persist(
+    source: ProjectSource,
+    sink: ProjectSink,
+) -> tuple[BootstrappedProject, ...]:
+    """Discover, validate, and transactionally hand projects to persistence.
+
+    Returning the immutable bootstrap result keeps this entry point useful for
+    logging and dry-run summaries while the sink owns all database mutation.
+    """
+
+    projects = bootstrap_projects(source)
+    sink.persist_projects(projects)
+    return projects
