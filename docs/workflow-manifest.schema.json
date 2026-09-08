@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cowlsly.dev/schemas/workflow-manifest.schema.json",
+  "title": "Cowlsly Workflow Opt-in Manifest",
+  "type": "object",
+  "required": ["version", "enabled", "project_id"],
+  "properties": {
+    "version": {"const": 1},
+    "enabled": {"type": "boolean"},
+    "project_id": {"type": "string", "minLength": 1},
+    "task_files": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true,
+      "default": []
+    },
+    "instruction_files": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true,
+      "default": []
+    },
+    "status_file": {"type": ["string", "null"]},
+    "default_capabilities": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true,
+      "default": []
+    }
+  },
+  "additionalProperties": false
+}
