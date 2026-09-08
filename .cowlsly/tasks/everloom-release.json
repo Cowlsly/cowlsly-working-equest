@@ -1,0 +1,48 @@
+{
+  "tasks": [
+    {
+      "id": "TASK-EVERLOOM-PACKAGE",
+      "objective": "Create a reproducible Everloom distribution package with manifest and checksums.",
+      "priority": 100,
+      "acceptance_criteria": [
+        "Packaging script creates an Everloom archive from an explicit allow-list.",
+        "Archive excludes credentials, caches and private runtime data.",
+        "Package contains SKILL.md, source, schemas, migrations, tests, documentation and license notices.",
+        "Package manifest records version, source revision, included files and SHA-256 checksums."
+      ]
+    },
+    {
+      "id": "TASK-EVERLOOM-CI",
+      "objective": "Make CI validate and publish the Everloom package artifact.",
+      "priority": 95,
+      "depends_on": ["TASK-EVERLOOM-PACKAGE"],
+      "acceptance_criteria": [
+        "Focused Everloom tests run in CI.",
+        "CI runs package validation before upload.",
+        "A successful workflow run uploads the Everloom ZIP artifact."
+      ]
+    },
+    {
+      "id": "TASK-EVERLOOM-DOCS",
+      "objective": "Finalize Everloom installation, operation, recovery and AI-skill documentation.",
+      "priority": 90,
+      "depends_on": ["TASK-EVERLOOM-PACKAGE"],
+      "acceptance_criteria": [
+        "Documentation names the skill Everloom and ID cowlsly-everloom.",
+        "Documentation explains installation, task opt-in, worker/reviewer loop, checkpoints, recovery and package verification.",
+        "External deployment prerequisites are clearly separated from core completion."
+      ]
+    },
+    {
+      "id": "TASK-EVERLOOM-RELEASE",
+      "objective": "Verify Everloom release readiness and produce the downloadable storage artifact.",
+      "priority": 100,
+      "depends_on": ["TASK-EVERLOOM-CI", "TASK-EVERLOOM-DOCS"],
+      "acceptance_criteria": [
+        "Focused CI is green on the release revision.",
+        "The package artifact is downloadable from the successful CI run.",
+        "No required core implementation item is knowingly marked complete without evidence."
+      ]
+    }
+  ]
+}

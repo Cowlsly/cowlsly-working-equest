@@ -1,13 +1,18 @@
-name: Cowlsly Durable Core
+name: Everloom Durable Core
 
 on:
   push:
     branches:
       - cowlsly-durable-workflow
+      - cowlsly-durable-selfhost
   pull_request:
     paths:
       - "src/core/durable_*.py"
       - "tests/test_cowlsly_durable_*.py"
+      - "tests/test_everloom_packaging.py"
+      - "skills/everloom/**"
+      - ".cowlsly/**"
+      - "scripts/package_everloom.py"
       - "migrations/001_cowlsly_durable_queue.sql"
       - "migrations/002_cowlsly_queue_functions.sql"
       - ".github/workflows/cowlsly-durable-core.yml"
@@ -16,14 +21,25 @@ permissions:
   contents: read
 
 jobs:
-  durable-core:
+  everloom-core:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install durable-core test dependencies
+      - name: Install Everloom test dependencies
         run: python -m pip install pytest==9.1.1 httpx==0.28.1
-      - name: Run durable core tests
-        run: python -m pytest -q tests/test_cowlsly_durable_*.py
+      - name: Run Everloom core tests
+        run: python -m pytest -q tests/test_cowlsly_durable_*.py tests/test_everloom_packaging.py
+      - name: Build Everloom skill package
+        run: python scripts/package_everloom.py --output dist/everloom-1.0.0.zip
+      - name: Validate Everloom skill package
+        run: python scripts/package_everloom.py --validate-only dist/everloom-1.0.0.zip
+      - name: Upload Everloom skill package
+        uses: actions/upload-artifact@v4
+        with:
+          name: everloom-1.0.0
+          path: dist/everloom-1.0.0.zip
+          if-no-files-found: error
+          retention-days: 90

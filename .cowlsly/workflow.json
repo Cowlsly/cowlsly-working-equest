@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "enabled": true,
+  "project_id": "everloom",
+  "task_files": [".cowlsly/tasks/everloom-release.json"],
+  "instruction_files": ["skills/everloom/SKILL.md", "docs/COWLSLY_DURABLE_WORKFLOW.md"],
+  "status_file": "docs/COWLSLY_IMPLEMENTATION_TODO.md",
+  "default_capabilities": ["python", "github", "testing", "packaging"]
+}
